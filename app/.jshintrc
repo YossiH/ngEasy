@@ -1,0 +1,16 @@
+{
+  "extends": "../.jshintrc-base",
+  "browser": true,
+  "globals": {
+    /* auto/injector.js */
+    "createInjector": false,
+
+    /* ngEasy.js */
+    "ngEasy": false,
+
+
+    /* ng/directives/adminNav.js */
+    "adminNav": false,
+
+  }
+}
