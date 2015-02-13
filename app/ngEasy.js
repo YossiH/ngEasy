@@ -25,12 +25,7 @@
 // var GLOBAL_VAR = 'value';    //comment
 
 
-var app = angular.module('ngEasy', []);
+var ngEasyApp = angular.module('ngEasy', []);
 
-app.inherits = function (Child, Parent) {
-	var Constructor = function () {};
-	Constructor.prototype = Parent.prototype;
 
-	Child.prototype = new Constructor();
-	Child.prototype.constructor = Child;
-};
+
