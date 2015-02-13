@@ -29,11 +29,44 @@ app.controller('ngEasyNavAdminDemoMainController', ['$scope', function($scope) {
 					brandText: 'ngEasy TopNav Demo',
 					state: 'demo'
 				},
-				topNavMenu: {
-					position: 'right'
-
+				topNavMenuGroups: {
+					position: 'left',
+					menuGroup1: {
+						type: 'multiple',
+						isVisible: true,
+						iconClass: 'fa fa-info',
+						text: 'Menu Group 1',
+						menuItems: {
+							itemA: {
+								type: 'state',
+								state: 'demo',
+								iconClass: '',
+								isVisible: true,
+								isDivider: false,
+								text: 'Item A',
+								weight: 0
+							},
+							itemB: {
+								type: 'state',
+								state: 'demo',
+								isVisible: true,
+								isDivider: false,
+								iconClass: '',
+								text: 'Item B',
+								weight: 2
+							},
+							itemC: {
+								type: 'state',
+								state: 'demo',
+								isVisible: true,
+								isDivider: false,
+								iconClass: '',
+								text: 'Item C',
+								weight: 1
+							}
+						}
+					}
 				}
-
 			},
 			sideBarSettings: {
 				barState: 'expanded',

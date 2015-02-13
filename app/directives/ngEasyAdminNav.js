@@ -27,47 +27,47 @@ ngEasyModule
 							'</span>' +
 						'</div>' +
 
-						'<ul class="nav navbar-top-links {{ settings.topNavMenu.position }}">' +
-							'<li ng-switch="topNavMenuItem.type" ng-repeat="topNavMenuItem in topNavMenu | orderBy:\'weight\'" ng-if="item._isVisible()" class="dropdown">' +
-								'<a ng-switch-when="state" ui-sref="{{ topNavMenuItem.state }}" ui-sref-active="active">' +
-									'<span class="menu-item-icon fa fa-fw {{ topNavMenuItem.iconClass}}"></span>' +
-									'<span class="menu-item-text"> {{ topNavMenuItem.text }}</span>' +
-								'</a>' +
-								'<a ng-switch-when="action" ng-click="topNavMenuItem.click()">' +
-									'<span class="menu-item-icon fa fa-fw {{ topNavMenuItem.iconClass}}"></span>' +
-									'<span class="menu-item-text"> {{ topNavMenuItem.text }}</span>' +
-								'</a>' +
-								'<a ng-switch-when="href" ng-href="topNavMenuItem.href">' +
-									'<span class="menu-item-icon fa fa-fw {{ topNavMenuItem.iconClass}}"></span>' +
-									'<span class="menu-item-text"> {{ topNavMenuItem.text }}</span>' +
-								'</a>' +
-								'<a ng-switch-when="children" class="dropdown-toggle">' +
-									'<span class="fa fa-fw {{ topNavMenuItem.iconClass }}"></span>' +
-									'<span> {{ topNavMenuItem.itemText }} </span>' +
-									'<span class="fa fa-caret-down"></span>' +
-								'</a>' +
-								'<ul ng-switch-when="children" class="dropdown-menu">' +
-									'<li ng-repeat="topNavMenuChildItem in topNavMenuItem.children | orderBy:\'weight\'"' +
-										'ng-class="{\'divider\': item.isDivider }"' +
-										'ng-if="topNavMenuChildItem.isVisible">' +
-											'<span ng-switch="topNavMenuChildItem.type">' +
-												'<a ng-switch-when="state" ui-sref="{{ topNavMenuChildItem.state }}" ui-sref-active="active">' +
-													'<span class="menu-item-icon fa fa-fw {{ topNavMenuChildItem.iconClass}}"></span>' +
-													'<span class="menu-item-text"> {{ topNavMenuChildItem.text }}</span>' +
-												'</a>' +
-												'<a ng-switch-when="action" ng-click="topNavMenuChildItem.click()">' +
-													'<span class="menu-item-icon fa fa-fw {{ topNavMenuChildItem.iconClass}}"></span>' +
-													'<span class="menu-item-text"> {{ topNavMenuChildItem.text }}</span>' +
-												'</a>' +
-												'<a ng-switch-when="href" ng-href="topNavMenuChildItem.href">' +
-													'<span class="menu-item-icon fa fa-fw {{ topNavMenuChildItem.iconClass}}"></span>' +
-													'<span class="menu-item-text"> {{ topNavMenuChildItem.text }}</span>' +
-												'</a>' +
-											'</span>' +
-									'</li>' +
-								'</ul>' +
-							'</li>' +
-						'</ul>' +
+
+							'<ul ng-repeat="menuGroupItem in settings.topNavMenuGroups" class="nav navbar-top-links {{ settings.topNavMenuGroups.position }}">' +
+								'<li ng-switch="menuGroupItem.type" ng-if="menuGroupItem.isVisible" class="dropdown">' +
+									'<a ng-switch-when="state" ui-sref="{{ menuGroupItem.state }}" ui-sref-active="active">' +
+										'<span class="menu-item-icon fa fa-fw {{ menuGroupItem.iconClass}}"></span>' +
+										'<span class="menu-item-text"> {{ menuGroupItem.text }}</span>' +
+									'</a>' +
+									'<a ng-switch-when="action" ng-click="menuGroupItem.click()">' +
+										'<span class="menu-item-icon fa fa-fw {{ menuGroupItem.iconClass}}"></span>' +
+										'<span class="menu-item-text"> {{ menuGroupItem.text }}</span>' +
+									'</a>' +
+									'<a ng-switch-when="href" ng-href="menuGroupItem.href">' +
+										'<span class="menu-item-icon fa fa-fw {{ menuGroupItem.iconClass}}"></span>' +
+										'<span class="menu-item-text"> {{ menuGroupItem.text }}</span>' +
+									'</a>' +
+									'<a ng-switch-when="multiple" class="dropdown-toggle">' +
+										'<span class="fa fa-fw {{ menuGroupItem.iconClass }}"></span>' +
+										'<span> {{ menuGroupItem.text }} </span>' +
+										'<span class="fa fa-caret-down"></span>' +
+									'</a>' +
+									'<ul ng-switch-when="multiple" class="dropdown-menu">' +
+										'<li ng-repeat="menuItem in menuGroupItem.menuItems | orderBy: menuGroupItem.weight"' +
+											'ng-if="menuItem.isVisible">' +
+												'<span ng-switch="menuItem.type">' +
+													'<a ng-switch-when="state" ui-sref="{{ menuItem.state }}" ui-sref-active="active">' +
+														'<span class="menu-item-icon fa fa-fw {{ menuItem.iconClass}}"></span>' +
+														'<span class="menu-item-text"> {{ menuItem.text }}</span>' +
+													'</a>' +
+													'<a ng-switch-when="action" ng-click="menuItem.click()">' +
+														'<span class="menu-item-icon fa fa-fw {{ menuItem.iconClass}}"></span>' +
+														'<span class="menu-item-text"> {{ menuItem.text }}</span>' +
+													'</a>' +
+													'<a ng-switch-when="href" ng-href="menuGroupItemChild.href">' +
+														'<span class="menu-item-icon fa fa-fw {{ menuItem.iconClass}}"></span>' +
+														'<span class="menu-item-text"> {{ menuItem.text }}</span>' +
+													'</a>' +
+												'</span>' +
+										'</li>' +
+									'</ul>' +
+								'</li>' +
+							'</ul>' +
 					'</nav>',
 		restrict: 'E',
 		require: '^ngEasyAdminNav',
@@ -76,6 +76,7 @@ ngEasyModule
 		link: function postLink(scope, element, attrs, ngEasyAdminNavController) {
 
 			scope.settings = ngEasyAdminNavController.getTopNavSettings();
+			console.log(scope.settings);
 
 		}
 	};
