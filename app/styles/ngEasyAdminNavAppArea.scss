@@ -1,0 +1,14 @@
+#ng-easy-app-area {
+  padding: 0 15px;
+  min-height: 568px;
+  background-color: #fff;
+}
+
+@media(min-width:768px) {
+  #ng-easy-app-area {
+    position: absolute;
+    margin: 100px 0 0 250px;
+    padding: 0 1px;
+    border-left: 1px solid #e7e7e7;
+  }
+}

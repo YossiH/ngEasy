@@ -25,7 +25,7 @@
 // var GLOBAL_VAR = 'value';    //comment
 
 
-var ngEasyApp = angular.module('ngEasy', []);
+var ngEasyApp = angular.module('ngEasy', ['ui.bootstrap']);
 
 
 

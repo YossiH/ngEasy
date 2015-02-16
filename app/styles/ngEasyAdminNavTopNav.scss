@@ -1,5 +1,6 @@
 .navbar-top-links li {
   display: inline-block;
+  cursor: pointer;
 }
 
 .navbar-top-links li:last-child {
@@ -10,6 +11,7 @@
   padding: 15px;
   min-height: 50px;
 }
+
 
 .navbar-top-links .dropdown-menu li {
   display: block;

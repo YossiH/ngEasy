@@ -7,7 +7,7 @@ ngEasyModule
 .directive('ngEasyTopNav', function ()  {
 
 	return {
-		template:   '<nav id="topNavRoot" class="navbar navbar-default navbar-static-top ngEasyTopNav" role="navigation">' +
+		template:   '<nav id="topNavRoot" class="navbar navbar-default navbar-fixed-top ngEasyTopNav" role="navigation">' +
 						'<div class="navbar-header">' +
 							'<button type="button" class="navbar-toggle" ng-click="isSideBarCollapsed = !isSideBarCollapsed">' +
 								'<span class="sr-only">Toggle SideBar</span>' +
@@ -33,6 +33,10 @@ ngEasyModule
 								'<a ng-switch-when="state" ui-sref="{{ menuGroupItem.state }}" ui-sref-active="active">' +
 									'<span class="menu-item-icon fa fa-fw {{ menuGroupItem.iconClass}}"></span>' +
 									'<span class="menu-item-text"> {{ menuGroupItem.text }}</span>' +
+								'</a>' +
+								'<ul ng-switch-when="spacer" style="cursor:default" class="nav navbar-top-links navbar-right">' +
+									'<li style="width: {{ menuGroupItem.width }}"></li>' +
+								'</ul>' +
 								'</a>' +
 								'<a ng-switch-when="action" ng-click="menuGroupItem.click()">' +
 									'<span class="menu-item-icon fa fa-fw {{ menuGroupItem.iconClass}}"></span>' +
@@ -99,28 +103,40 @@ ngEasyModule
 .directive('ngEasySideNav', function ()  {
 
 		return {
-			template:   '<div collapse="isNavbarCollapsed">' +
+			template:   '<div collapse="{{settings.sideBarState}}">' +
 							'<div class="navbar-default sidebar" role="navigation">' +
 								'<div class="sidebar-nav navbar-collapse">' +
-									'<ul class="nav">' +
-										'<li class="sidebar-search" ng-show="!_sidebarTextCollapse.isCollapsed && _sidebarSearch.isVisible">' +
-											'<form ng-submit="_sidebarSearch.submit()">' +
-												'<div class="input-group">' +
-													'<input type="text" class="form-control search-input" placeholder="{{\'Search\'}}"' +
-													'ng-model="_sidebarSearch.model">' +
-													'<span class="input-group-btn">' +
-														'<button class="btn btn-default" type="submit">' +
-															'<i class="fa fa-search"></i>' +
-														'</button>' +
-													'</span>' +
-												'</div>' +
-											'</form>' +
-										'</li>' +
-										'<li ng-repeat="item in sidebarMenuItems | orderBy:\'weight\'" ng-if="item._isVisible()"></li>' +
-										'<li ng-click="toggleSidebarTextCollapse()" ng-if="_sidebarTextCollapse.isVisible">' +
-											'<a>' +
-												'<span class="fa fa-fw" ng-class="_sidebarTextCollapse.isCollapsed ? \'fa-arrow-right\' : \'fa-arrow-left\'"></span>' +
+									'<ul ng-repeat="menuGroupItem in settings.sideBarMenuGroups" class="nav">' +
+										'<li ng-switch="menuGroupItem.type" ng-if="menuGroupItem.isVisible" ng-class="menuGroupItem.isCollapsed ? \'\' : \'open\'" ng-click="toggleSideBarMenu(menuGroupItem.index)">' +
+											'<a ng-switch-when="state" ui-sref="{{menuGroupItem.state}}" ui-sref-active="active">' +
+												'<span class="menu-item-icon fa fa-fw {{ menuGroupItem.iconClass }}"></span>' +
+												'<span class="menu-item-text"> {{ menuGroupItem.text }}</span>' +											'</a>' +
 											'</a>' +
+
+											'<a ng-switch-when="multiple">' +
+												'<span class="fa fa-fw {{ menuGroupItem.iconClass }}"></span>' +
+												'<span> {{ menuGroupItem.text }} </span>' +
+												'<span class="navbar-right sidebar-arrow fa fa-fw"' +
+												'ng-class="menuGroupItem.isCollapsed ? \'fa-chevron-left\' : \'fa-chevron-down\'"></span>' +
+											'</a>' +
+											'<ul ng-switch-when="multiple" class="nav" ng-class="menuGroupItem.isCollapsed ? \'hidden\' : \'\'">' +
+												'<li ng-repeat="menuItem in menuGroupItem.menuItems | orderBy: menuGroupItem.weight" ng-if="menuItem.isVisible">' +
+													'<span ng-switch="menuItem.type">' +
+														'<a ng-switch-when="state" ui-sref="{{ menuItem.state }}" ui-sref-active="inactive">' +
+															'<span class="menu-item-icon fa fa-fw {{ menuItem.iconClass }}"></span>' +
+															'<span class="menu-item-text"> {{ menuItem.text }}</span>' +
+														'</a>' +
+														'<a ng-switch-when="action" ng-click="menuItem.click()">' +
+															'<span class="menu-item-icon fa fa-fw {{ menuItem.iconClass}}"></span>' +
+															'<span class="menu-item-text"> {{ menuItem.text }}</span>' +
+														'</a>' +
+														'<a ng-switch-when="href" ng-href="menuGroupItemChild.href">' +
+															'<span class="menu-item-icon fa fa-fw {{ menuItem.iconClass }}"></span>' +
+															'<span class="menu-item-text"> {{ menuItem.text }}</span>' +
+														'</a>' +
+													'</span>' +
+												'</li>' +
+											'</ul>' +
 										'</li>' +
 									'</ul>' +
 								'</div>' +
@@ -137,6 +153,20 @@ ngEasyModule
 				scope.settings = ngEasyAdminNavController.getSideNavSettings();
 				console.log(scope.settings);
 
+
+				scope.toggleSideBarMenu = function(idx) {
+					angular.forEach(scope.settings.sideBarMenuGroups,  function(value, key) {
+						if(angular.isObject(value)) {
+							if (value.index === idx) {
+								value.isCollapsed = value.isCollapsed === false ? true : false;
+							} else {
+								value.isCollapsed = true;
+							}
+						}
+					} );
+
+				}
+
 			}
 		};
 
@@ -147,9 +177,18 @@ ngEasyModule
 	.directive('ngEasyAppArea', function ()  {
 
 		return {
-			template:   '<div id="app-area">' +
+			template:   '<div id="ng-easy-app-area">' +
 						'<div class="row">' +
 						'<div class="col-lg-12">' +
+
+							'<tabset justified="true">' +
+							'<tab heading="Justified">' +
+			'' +
+			'</tab>' +
+							'<tab heading="SJ">Short Labeled Justified content</tab>' +
+							'<tab heading="Long Justified">Long Labeled Justified content</tab>' +
+							'</tabset>' +
+
 						'</div>' +
 						'</div>' +
 						'</div>',
